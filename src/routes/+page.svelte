@@ -16,17 +16,36 @@
 
 	let errorText = $state('');
 
+	let loggedIn = $state(false);
+	let link = $state('');
+
 	function signupFunc() {
+		errorText = '';
 		login = false;
 		signup = true;
 	}
 
 	function loginFunc() {
+		errorText = '';
 		signup = false;
 		login = true;
 	}
 
+	function back() {
+		errorText = '';
+		signup = false;
+		login = false;
+	}
+
+	const okChars = 'abcdefghijklmnopqrstuvwxyz1234567890-';
+
 	function signupForm() {
+		for (let i = 0; i < signupUsername.length; i++) {
+			if (!okChars.includes(signupUsername[i].toLowerCase())) {
+				errorText = 'Username can only include letters, numbers and hyphens';
+				return;
+			}
+		}
 		loading = true;
 		window.location.assign(`/signup/${signupUsername}/${signupDisplayName}`);
 	}
@@ -40,7 +59,9 @@
 		const e = page.url.searchParams.getAll('e');
 		const userCode = localStorage.getItem('user-code');
 		if (userCode) {
-			goto(`/home/${userCode}`);
+			link = `/home/${userCode}`;
+			loggedIn = true;
+			loading = false;
 		} else if (e.length > 0) {
 			switch (e[0]) {
 				case '1':
@@ -83,42 +104,51 @@
 			<div class="text-center">
 				<p class="text-4xl font-black">Y. Because why not</p>
 				<br />
-				<div class="h-40">
-					<div class="h-30">
-						{#if !signup}
-							{#if !login}
-								<Button onclick={loginFunc}>Log In</Button>
-							{:else}
-								<h2 class="mb-4 text-2xl font-bold">Log In</h2>
-								<form onsubmit={loginForm} class="flex">
-									<Input bind:value={loginUsername} type="text" placeholder="Username" required />
-									<Button type="submit" class="ml-2">Log In</Button>
-								</form>
-								<Button variant="link" onclick={() => (login = false)}>Back</Button>
-							{/if}
-						{/if}
-						{#if !login}
+				<div class="h-60">
+					{#if loggedIn}
+						<Button href={link}>Home</Button>
+					{:else}
+						<div class="h-40">
 							{#if !signup}
-								<Button onclick={signupFunc}>Sign Up</Button>
-							{:else}
-								<h2 class="mb-4 text-2xl font-bold">Sign Up</h2>
-								<form onsubmit={signupForm}>
-									<Input bind:value={signupUsername} type="text" placeholder="Username" required />
-									<div class="mt-2 flex">
+								{#if !login}
+									<Button onclick={loginFunc}>Log In</Button>
+								{:else}
+									<h2 class="mb-4 text-2xl font-bold">Log In</h2>
+									<form onsubmit={loginForm} class="flex">
+										<Input bind:value={loginUsername} type="text" placeholder="Username" required />
+										<Button type="submit" class="ml-2">Log In</Button>
+									</form>
+									<Button variant="link" onclick={back}>Back</Button>
+								{/if}
+							{/if}
+							{#if !login}
+								{#if !signup}
+									<Button onclick={signupFunc}>Sign Up</Button>
+								{:else}
+									<h2 class="mb-4 text-2xl font-bold">Sign Up</h2>
+									<form onsubmit={signupForm}>
 										<Input
-											bind:value={signupDisplayName}
+											bind:value={signupUsername}
 											type="text"
-											placeholder="Display Name"
+											placeholder="Username"
 											required
 										/>
-										<Button type="submit" class="ml-2">Sign Up</Button>
-									</div>
-								</form>
-								<Button variant="link" onclick={() => (signup = false)}>Back</Button>
+										<div class="mt-2 flex">
+											<Input
+												bind:value={signupDisplayName}
+												type="text"
+												placeholder="Display Name"
+												required
+											/>
+											<Button type="submit" class="ml-2">Sign Up</Button>
+										</div>
+									</form>
+									<Button variant="link" onclick={back}>Back</Button>
+								{/if}
 							{/if}
-						{/if}
-					</div>
-					<p class="font-bold text-red-400">{errorText}</p>
+						</div>
+					{/if}
+					<p class="m-auto w-80 text-center font-bold text-red-400">{errorText}</p>
 				</div>
 			</div>
 		</div>

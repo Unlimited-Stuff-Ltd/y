@@ -11,10 +11,10 @@
 		animation: pulse 3s infinite;
 	}
 	@keyframes pulse {
-		0% {
+		from {
 			transform: rotate(0deg);
 		}
-		100% {
+		to {
 			transform: rotate(360deg);
 		}
 	}
