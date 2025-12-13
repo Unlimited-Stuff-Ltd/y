@@ -1,9 +1,10 @@
 import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import defaultJSON from '$lib/assets/default.json';
 
 export const users = sqliteTable('users', {
 	username: text('username').primaryKey(),
 	displayName: text('display_name').notNull(),
-	icon: text('icon')
+	icon: text('icon').default(defaultJSON.image)
 });
 
 export const posts = sqliteTable('posts', {
