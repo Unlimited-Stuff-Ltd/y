@@ -1,31 +1,62 @@
 <script lang="ts">
-	import { Button, Input } from '$lib/components';
-    import y from '$lib/assets/y.svg';
+	import { Button, Input, Loading } from '$lib/components';
+	import y from '$lib/assets/y.svg';
+	import { onMount } from 'svelte';
+	import { goto } from '$app/navigation';
 
-    let login = $state(false);
+	let login = $state(false);
+	let signup = $state(false);
 
-    let username = $state('');
-    let password = $state('');
+	let loading = $state(true);
+
+	function signupFunc() {
+		login = false;
+		signup = true;
+	}
+
+	function loginFunc() {
+		signup = false;
+		login = true;
+	}
+
+	onMount(() => {
+		if (localStorage.getItem('user-code')) {
+			goto('/home');
+		} else {
+			loading = false;
+		}
+	});
 </script>
 
-<main class="grid grid-cols-2">
-    <div class="flex justify-center items-center w-[50vw] h-screen">
-        <img src={y} alt='y logo' class="w-100" />
-    </div>
-    <div class="flex justify-center items-center w-[50vw] h-screen">
-        <div class="text-center">
-            <p class="font-black text-4xl">Y. We're better</p><br />
-            {#if !login}
-                <Button onclick={() => login = true}>Log In</Button>
-            {:else}
-                <form>
-                    <Input bind:value={username} name='username' type="text" placeholder="Username" />
-                    <div class="flex mt-2">
-                        <Input bind:value={password} name='password' type='password' placeholder="Password" />
-                        <Button type="submit" class="ml-2">Go</Button>
-                    </div>
-                </form>
-            {/if}
-        </div>
-    </div>
-</main>
+{#if loading}
+	<Loading />
+{:else}
+	<main class="grid grid-cols-2">
+		<div class="flex h-screen w-[50vw] items-center justify-center">
+			<img src={y} alt="y logo" class="w-100" />
+		</div>
+		<div class="flex h-screen w-[50vw] items-center justify-center">
+			<div class="text-center">
+				<p class="text-4xl font-black">Y. Because why not</p>
+				<br />
+				{#if !login}
+					<Button onclick={loginFunc}>Log In</Button>
+				{:else}
+					<form method="POST" action="/login" class="flex">
+						<Input name="code" type="text" placeholder="User Code" required />
+						<Button type="submit" class="ml-2">Log In</Button>
+					</form>
+				{/if}
+				<div class="h-5"></div>
+				{#if !signup}
+					<Button onclick={signupFunc}>Sign Up</Button>
+				{:else}
+					<form method="POST" action="/signup" class="flex">
+						<Input name="username" type="text" placeholder="Username" required />
+						<Button type="submit" class="ml-2">Sign Up</Button>
+					</form>
+				{/if}
+			</div>
+		</div>
+	</main>
+{/if}
