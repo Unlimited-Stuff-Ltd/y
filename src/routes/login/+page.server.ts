@@ -8,11 +8,16 @@ export const actions = {
 	default: async ({ request }) => {
 		const data = await request.formData();
 		const code = String(data.get('code'));
-		const user = await db.select().from(users).where(eq(users.id, code));
-		if (user.length < 1) {
-			redirect(303, '/?e=1');
+		try {
+			const user = await db.select().from(users).where(eq(users.id, code));
+			if (user.length < 1) {
+				redirect(303, '/?e=1');
+			}
+			localStorage.setItem('user-code', code);
+			redirect(303, '/home');
+		} catch (error) {
+			console.log(error);
+			redirect(303, '/?e=4');
 		}
-		localStorage.setItem('user-code', code);
-		redirect(303, '/home');
 	}
 } satisfies Actions;

@@ -3,11 +3,14 @@
 	import y from '$lib/assets/y.svg';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
+	import { page } from '$app/state';
 
 	let login = $state(false);
 	let signup = $state(false);
 
 	let loading = $state(true);
+
+	let errorText = $state('');
 
 	function signupFunc() {
 		login = false;
@@ -20,8 +23,32 @@
 	}
 
 	onMount(() => {
+		const e = page.url.searchParams.getAll('e');
 		if (localStorage.getItem('user-code')) {
 			goto('/home');
+		} else if (e.length > 0) {
+			switch (e[0]) {
+				case '1':
+					errorText = 'User not found';
+					loading = false;
+					goto('/', { replaceState: true });
+					break;
+				case '2':
+					errorText = 'Username already exists';
+					loading = false;
+					goto('/', { replaceState: true });
+					break;
+				case '3':
+					errorText = 'Please sign in first';
+					loading = false;
+					goto('/', { replaceState: true });
+					break;
+				case '4':
+					errorText = 'There was an error';
+					loading = false;
+					goto('/', { replaceState: true });
+					break;
+			}
 		} else {
 			loading = false;
 		}
@@ -39,23 +66,35 @@
 			<div class="text-center">
 				<p class="text-4xl font-black">Y. Because why not</p>
 				<br />
-				{#if !login}
-					<Button onclick={loginFunc}>Log In</Button>
-				{:else}
-					<form method="POST" action="/login" class="flex">
-						<Input name="code" type="text" placeholder="User Code" required />
-						<Button type="submit" class="ml-2">Log In</Button>
-					</form>
-				{/if}
-				<div class="h-5"></div>
-				{#if !signup}
-					<Button onclick={signupFunc}>Sign Up</Button>
-				{:else}
-					<form method="POST" action="/signup" class="flex">
-						<Input name="username" type="text" placeholder="Username" required />
-						<Button type="submit" class="ml-2">Sign Up</Button>
-					</form>
-				{/if}
+				<div class="h-40">
+					<div class="h-30">
+						{#if !signup}
+							{#if !login}
+								<Button onclick={loginFunc}>Log In</Button>
+							{:else}
+								<h2 class="mb-4 text-2xl font-bold">Log In</h2>
+								<form method="POST" action="/login" class="flex">
+									<Input name="code" type="text" placeholder="User Code" required />
+									<Button type="submit" class="ml-2">Log In</Button>
+								</form>
+								<Button variant="link" onclick={() => (login = false)}>Back</Button>
+							{/if}
+						{/if}
+						{#if !login}
+							{#if !signup}
+								<Button onclick={signupFunc}>Sign Up</Button>
+							{:else}
+								<h2 class="mb-4 text-2xl font-bold">Sign Up</h2>
+								<form method="POST" action="/signup" class="flex">
+									<Input name="username" type="text" placeholder="Username" required />
+									<Button type="submit" class="ml-2">Sign Up</Button>
+								</form>
+								<Button variant="link" onclick={() => (signup = false)}>Back</Button>
+							{/if}
+						{/if}
+					</div>
+					<p class="font-bold text-red-400">{errorText}</p>
+				</div>
 			</div>
 		</div>
 	</main>

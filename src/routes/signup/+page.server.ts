@@ -16,10 +16,10 @@ export const actions = {
 				})
 				.returning({ id: users.id });
 			localStorage.setItem('user-code', user[0].id);
-		} catch {
-			localStorage.removeItem('user-code');
+			redirect(303, `/home/${user[0].id}`);
+		} catch (error) {
+			console.log(error);
 			redirect(303, '/?e=2');
 		}
-		redirect(303, '/home');
 	}
 } satisfies Actions;

@@ -56,6 +56,7 @@
 </script>
 
 {#if href}
+	<!-- eslint-disable -->
 	<a
 		bind:this={ref}
 		data-slot="button"
@@ -66,6 +67,7 @@
 		tabindex={disabled ? -1 : undefined}
 		{...restProps}
 	>
+		<!-- eslint-enable -->
 		{@render children?.()}
 	</a>
 {:else}
