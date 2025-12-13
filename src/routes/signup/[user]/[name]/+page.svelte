@@ -14,6 +14,6 @@
 	});
 </script>
 
-<svelte:head><title>Loading - Y</title></svelte:head>
+<svelte:head><title>Loading - y</title></svelte:head>
 
 <Loading />
