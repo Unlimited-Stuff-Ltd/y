@@ -5,9 +5,11 @@ import { redirect } from '@sveltejs/kit';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const username = params.user;
+	const displayName = params.name;
 	try {
 		await db.insert(users).values({
 			username,
+			displayName,
 			icon: 'https://y.unlimitedstuffltd.com/placeholder.png'
 		});
 	} catch (error) {

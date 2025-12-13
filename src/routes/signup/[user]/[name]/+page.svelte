@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { PageProps } from '../$types';
+	import type { PageProps } from '../../$types';
 	import { Loading } from '$lib/components';
 	import { onMount } from 'svelte';
 	import { goto } from '$app/navigation';
@@ -14,6 +14,6 @@
 	});
 </script>
 
-<svelte:head><title>Loading - y</title></svelte:head>
+<svelte:head><title>Loading - Y</title></svelte:head>
 
 <Loading />

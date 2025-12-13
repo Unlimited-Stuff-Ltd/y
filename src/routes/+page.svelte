@@ -10,6 +10,7 @@
 
 	let loginUsername = $state('');
 	let signupUsername = $state('');
+	let signupDisplayName = $state('');
 
 	let loading = $state(true);
 
@@ -27,7 +28,7 @@
 
 	function signupForm() {
 		loading = true;
-		window.location.assign(`/signup/${signupUsername}`);
+		window.location.assign(`/signup/${signupUsername}/${signupDisplayName}`);
 	}
 
 	function loginForm() {
@@ -37,8 +38,9 @@
 
 	onMount(() => {
 		const e = page.url.searchParams.getAll('e');
-		if (localStorage.getItem('user-code')) {
-			goto('/home');
+		const userCode = localStorage.getItem('user-code');
+		if (userCode) {
+			goto(`/home/${userCode}`);
 		} else if (e.length > 0) {
 			switch (e[0]) {
 				case '1':
@@ -67,6 +69,8 @@
 		}
 	});
 </script>
+
+<svelte:head><title>y. Because why not</title></svelte:head>
 
 {#if loading}
 	<Loading />
@@ -98,9 +102,17 @@
 								<Button onclick={signupFunc}>Sign Up</Button>
 							{:else}
 								<h2 class="mb-4 text-2xl font-bold">Sign Up</h2>
-								<form onsubmit={signupForm} class="flex">
+								<form onsubmit={signupForm}>
 									<Input bind:value={signupUsername} type="text" placeholder="Username" required />
-									<Button type="submit" class="ml-2">Sign Up</Button>
+									<div class="mt-2 flex">
+										<Input
+											bind:value={signupDisplayName}
+											type="text"
+											placeholder="Display Name"
+											required
+										/>
+										<Button type="submit" class="ml-2">Sign Up</Button>
+									</div>
 								</form>
 								<Button variant="link" onclick={() => (signup = false)}>Back</Button>
 							{/if}

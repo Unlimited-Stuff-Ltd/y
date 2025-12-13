@@ -6,8 +6,6 @@
 		const userCode = localStorage.getItem('user-code');
 		if (!userCode) {
 			goto('/?e=3');
-		} else {
-			goto(`/home/${userCode}`);
 		}
 	});
 

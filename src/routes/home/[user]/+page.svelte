@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { Loading } from '$lib/components';
-    import type { PageProps } from './$types';
-
-    let { data }: PageProps = $props();
+	import { page } from '$app/state';
 </script>
 
-<p>{data.username}</p>
+<svelte:head>
+	<title>{page.params.user} - y</title>
+</svelte:head>
+
+<p>{page.params.user}</p>
