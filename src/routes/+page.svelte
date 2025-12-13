@@ -80,7 +80,12 @@
 					goto('/', { replaceState: true });
 					break;
 				case '4':
-					errorText = 'There was an error';
+					errorText = 'There was an error, code 4';
+					loading = false;
+					goto('/', { replaceState: true });
+					break;
+				case '5':
+					errorText = 'There was an error, code 5';
 					loading = false;
 					goto('/', { replaceState: true });
 					break;

@@ -4,6 +4,10 @@
 	import y from '$lib/assets/y.svg';
 </script>
 
+<svelte:head>
+	<title>{page.status}: {page.error?.message}</title>
+</svelte:head>
+
 <div class="flex h-screen w-full items-center justify-center">
 	<div class="text-center">
 		<img src={y} alt="y logo" class="w-50" />
