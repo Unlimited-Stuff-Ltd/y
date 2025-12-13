@@ -4,4 +4,4 @@
 	let { href, text } = $props();
 </script>
 
-<Button variant="link" {href} class="text-base">{text}</Button>
+<Button variant="link" {href} class="ml-5 text-base">{text}</Button>
