@@ -58,14 +58,19 @@
 	onMount(() => {
 		const e = page.url.searchParams.getAll('e');
 		const userCode = localStorage.getItem('user-code');
-		if (userCode) {
+		if (userCode && e.length === 0) {
 			link = `/home/${userCode}`;
 			loggedIn = true;
 			loading = false;
 		} else if (e.length > 0) {
 			switch (e[0]) {
 				case '1':
-					errorText = 'User not found';
+					console.log('one');
+					if (localStorage.getItem('user-code')) {
+						localStorage.removeItem('user-code');
+					} else {
+						errorText = 'User not found';
+					}
 					loading = false;
 					goto('/', { replaceState: true });
 					break;
