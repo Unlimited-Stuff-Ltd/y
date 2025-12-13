@@ -8,6 +8,9 @@
 	let login = $state(false);
 	let signup = $state(false);
 
+	let loginUsername = $state('');
+	let signupUsername = $state('');
+
 	let loading = $state(true);
 
 	let errorText = $state('');
@@ -20,6 +23,16 @@
 	function loginFunc() {
 		signup = false;
 		login = true;
+	}
+
+	function signupForm() {
+		loading = true;
+		window.location.assign(`/signup/${signupUsername}`);
+	}
+
+	function loginForm() {
+		loading = true;
+		window.location.assign(`/login/${loginUsername}`);
 	}
 
 	onMount(() => {
@@ -73,8 +86,8 @@
 								<Button onclick={loginFunc}>Log In</Button>
 							{:else}
 								<h2 class="mb-4 text-2xl font-bold">Log In</h2>
-								<form method="POST" action="/login" class="flex">
-									<Input name="code" type="text" placeholder="User Code" required />
+								<form onsubmit={loginForm} class="flex">
+									<Input bind:value={loginUsername} type="text" placeholder="Username" required />
 									<Button type="submit" class="ml-2">Log In</Button>
 								</form>
 								<Button variant="link" onclick={() => (login = false)}>Back</Button>
@@ -85,8 +98,8 @@
 								<Button onclick={signupFunc}>Sign Up</Button>
 							{:else}
 								<h2 class="mb-4 text-2xl font-bold">Sign Up</h2>
-								<form method="POST" action="/signup" class="flex">
-									<Input name="username" type="text" placeholder="Username" required />
+								<form onsubmit={signupForm} class="flex">
+									<Input bind:value={signupUsername} type="text" placeholder="Username" required />
 									<Button type="submit" class="ml-2">Sign Up</Button>
 								</form>
 								<Button variant="link" onclick={() => (signup = false)}>Back</Button>

@@ -11,10 +11,7 @@ function randomCode(): string {
 }
 
 export const users = sqliteTable('users', {
-	id: text('id')
-		.primaryKey()
-		.$defaultFn(() => randomCode()),
-	username: text('username').unique().notNull(),
+	username: text('username').primaryKey(),
 	icon: text('icon')
 });
 
