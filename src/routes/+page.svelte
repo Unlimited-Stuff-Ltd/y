@@ -106,7 +106,7 @@
 	}
 </script>
 
-<svelte:head><title>y. Because why not</title></svelte:head>
+<svelte:head><title>y. because why not</title></svelte:head>
 
 {#if loading}
 	<Loading />
