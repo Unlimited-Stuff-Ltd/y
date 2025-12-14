@@ -3,7 +3,7 @@
 </script>
 
 <svelte:head>
-	<title>{page.params.user} - y</title>
+	<title>Account - y</title>
 </svelte:head>
 
 <p>{page.params.user}</p>
