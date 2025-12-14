@@ -29,6 +29,11 @@
 	let signOutDialogOpen = $state(false);
 	let deleteDialogOpen = $state(false);
 
+	let nameChanged = $state(false);
+	let fileChanged = $state(false);
+
+	let files: any = $state();
+
 	function signOutDialog() {
 		signOutDialogOpen = true;
 	}
@@ -109,15 +114,45 @@
 				action="/home/{page.params.user}/account/loading"
 				enctype="multipart/form-data"
 			>
-				<Label class="mt-2 mb-1.5" for="displayName">Display Name:</Label>
+				<div class="grid grid-cols-3">
+					<div class="text-left">
+						<Label class="mt-2 mb-1.5" for="displayName">Display Name:</Label>
+					</div>
+					<div></div>
+					<div class="flex justify-end">
+						{#if nameChanged}<Label class="mt-1 mb-1.5 text-right">(Unsaved)</Label>{/if}
+					</div>
+				</div>
 				<Input
 					name="displayName"
 					placeholder={user.displayName}
 					class="font-bold"
 					id="displayName"
+					onchange={() => (nameChanged = true)}
 				/>
-				<Label class="mt-10 mb-1.5" for="fileInput">Icon</Label>
-				<Input name="file" id="fileInput" type="file" accept="image/png, image/jpeg" />
+
+				<div class="mt-5 grid grid-cols-3">
+					<div class="text-left">
+						<Label class="mt-2 mb-1.5">Icon:</Label>
+					</div>
+					<div></div>
+					<div class="flex justify-end">
+						{#if fileChanged}<Label class="mt-1 mb-1.5 text-right">(Unsaved)</Label>{/if}
+					</div>
+				</div>
+				<div class="flex text-left">
+					<Button class="mr-3 h-fit p-0" variant="outline"
+						><label for="fileInput" class="cursor-pointer px-4 py-2">Choose File</label></Button
+					>{#if files}<button disabled>{files[0].name}</button>{/if}<br />
+				</div>
+				<input
+					name="file"
+					id="fileInput"
+					type="file"
+					accept="image/png, image/jpeg"
+					bind:files
+					onchange={() => (fileChanged = true)}
+				/>
 				<Button class="mt-5 mb-10" type="submit">Save</Button>
 			</form>
 			<hr />
@@ -132,5 +167,8 @@
 <style>
 	.w-left {
 		width: calc(100vw - 12.5rem);
+	}
+	#fileInput {
+		display: none;
 	}
 </style>

@@ -99,6 +99,11 @@
 			loading = false;
 		}
 	});
+
+	function home() {
+		loading = true;
+		goto(link);
+	}
 </script>
 
 <svelte:head><title>y. Because why not</title></svelte:head>
@@ -116,7 +121,7 @@
 				<br />
 				<div class="h-60">
 					{#if loggedIn}
-						<Button href={link}>Home</Button>
+						<Button onclick={home}>Home</Button>
 					{:else}
 						<div class="h-40">
 							{#if !signup}

@@ -21,7 +21,6 @@
 	</div>
 	<div class="w-50">
 		<NavButton href="/home/{page.params.user}" text="Home " /><br />
-		<hr class="border-neutral-700" />
 		<NavButton href="/home/{page.params.user}/account" text="Account" />
 	</div>
 </nav>
