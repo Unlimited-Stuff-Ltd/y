@@ -65,7 +65,6 @@
 		} else if (e.length > 0) {
 			switch (e[0]) {
 				case '1':
-					console.log('one');
 					if (localStorage.getItem('user-code')) {
 						localStorage.removeItem('user-code');
 					} else {

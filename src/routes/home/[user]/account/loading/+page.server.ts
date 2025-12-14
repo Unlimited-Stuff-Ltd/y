@@ -12,8 +12,6 @@ export const actions = {
 		const arrayBuffer = await file.arrayBuffer();
 		try {
 			if (file.size > 0 && name) {
-				console.log(file);
-				console.log('hello world');
 				await db
 					.update(users)
 					.set({
@@ -22,7 +20,6 @@ export const actions = {
 					})
 					.where(eq(users.username, params.user));
 			} else if (name && file.size === 0) {
-				console.log('name');
 				await db
 					.update(users)
 					.set({
@@ -30,7 +27,6 @@ export const actions = {
 					})
 					.where(eq(users.username, params.user));
 			} else if (file.size > 0 && !name) {
-				console.log('hello');
 				await db.update(users).set({ icon: new Uint8Array(arrayBuffer).toString() });
 			}
 		} catch (error) {

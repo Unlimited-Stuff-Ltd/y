@@ -1,9 +1,9 @@
 <script lang="ts">
+	import { enhance } from '$app/forms';
+	import { page } from '$app/state';
 	import { SvelteDate } from 'svelte/reactivity';
 
-	let { icon, poster, contents, date, recommends } = $props();
-
-	let recommended = $state(false);
+	let { id, icon, poster, contents, date, recommends, image, recommended = false } = $props();
 
 	function formatDate(toFormat: Date) {
 		const now = new SvelteDate();
@@ -28,15 +28,26 @@
 		<h2 class="text-xl font-bold">{poster}</h2>
 		<h3 class="ml-2 text-neutral-400">{formatDate(date)}</h3>
 	</div>
+	{#if image}
+		<img src={image} alt="post" class="m-auto mt-3 rounded-sm border" />
+	{/if}
 	<p class="mt-6 mb-4 w-106 text-left">{contents}</p>
-	<div class="flex w-fit items-center justify-center">
-		<button
-			class="mr-2 h-5 w-5 cursor-pointer rounded-[50%] border-2 border-primary text-transparent {recommended
-				? 'bg-primary'
-				: ''}"
-			title="Recommend"
-			onclick={() => (recommended = !recommended)}
-		></button>
-		<p class="text-neutral-400">{recommends} recommends</p>
-	</div>
+	<form
+		use:enhance
+		class="flex w-fit items-center justify-center"
+		method="POST"
+		action="/home/{page.params.user}?recommend"
+	>
+		<input hidden name="id" value={id} />
+		{#if !recommended}
+			<button
+				class="mr-2 h-5 w-5 cursor-pointer rounded-[50%] border-2 border-primary"
+				title="Recommend"
+				type="submit"
+			></button>
+		{:else}
+			<div class="mr-2 h-5 w-5 rounded-[50%] border-2 border-primary bg-primary"></div>
+		{/if}
+		<p class="text-neutral-400">{recommends} recommendations</p>
+	</form>
 </div>
