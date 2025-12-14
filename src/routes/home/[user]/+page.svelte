@@ -27,7 +27,7 @@
 {:then posts}
 	<main>
 		<div class="flex items-center justify-center border-b p-5">
-			<img src={file} alt="the users icon" class="mr-3 w-12 rounded-[50%]" />
+			<img src={file} alt="the users icon" class="mr-3 h-12 w-12 rounded-[50%] border" />
 			<h1 class="text-2xl font-black">{data.user?.[0].displayName}</h1>
 		</div>
 		<div class="grid grid-cols-2 pt-8">

@@ -30,6 +30,7 @@
 	<div class="w-50">
 		<NavButton href="/home/{page.params.user}" text="Home " /><br />
 		<NavButton href="/home/{page.params.user}/account/posts" text="Your Posts" /><br />
+		<NavButton href="/home/{page.params.user}/write" text="Write a post" /><br />
 		<NavButton href="/home/{page.params.user}/account" text="Account" /><br />
 	</div>
 </nav>
