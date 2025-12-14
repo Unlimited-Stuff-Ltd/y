@@ -23,7 +23,9 @@
 
 <nav class="fixed h-screen w-50 border-r">
 	<div class="flex h-50 w-50 items-center justify-center">
-		<img src={y} alt="y logo" class="m-auto h-20 w-20" />
+		<button onclick={() => goto(`/home/${page.params.user}`)} class="cursor-pointer">
+			<img src={y} alt="y logo" class="m-auto h-20 w-20" />
+		</button>
 	</div>
 	<div class="w-50">
 		<NavButton href="/home/{page.params.user}" text="Home " /><br />

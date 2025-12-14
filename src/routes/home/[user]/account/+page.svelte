@@ -32,6 +32,8 @@
 	let nameChanged = $state(false);
 	let fileChanged = $state(false);
 
+	let text = $state('');
+
 	let files: any = $state();
 
 	function signOutDialog() {
@@ -56,10 +58,20 @@
 			deleteButtonDisabled = false;
 		}
 	}
+
+	function fileChange() {
+		if (files[0].size > 3000000) {
+			files = null;
+			text = 'Icon must be smaller than 3 MB';
+		} else {
+			text = '';
+			fileChanged = true;
+		}
+	}
 </script>
 
 <svelte:head>
-	<title>Account - y</title>
+	<title>Account - Y</title>
 </svelte:head>
 
 <AlertDialog.Root bind:open={signOutDialogOpen}>
@@ -130,7 +142,6 @@
 					id="displayName"
 					onkeyup={() => (nameChanged = true)}
 				/>
-
 				<div class="mt-5 grid grid-cols-3">
 					<div class="text-left">
 						<Label class="mt-2 mb-1.5">Icon:</Label>
@@ -145,13 +156,14 @@
 						><label for="fileInput" class="cursor-pointer px-4 py-2">Choose File</label></Button
 					>{#if files}<button disabled>{files[0].name}</button>{/if}<br />
 				</div>
+				<p class="w-64">{text}<span class="text-transparent">hi</span></p>
 				<input
 					name="file"
 					id="fileInput"
 					type="file"
 					accept="image/png, image/jpeg"
 					bind:files
-					onchange={() => (fileChanged = true)}
+					onchange={fileChange}
 				/>
 				<Button class="mt-5 mb-10" type="submit">Save</Button>
 			</form>

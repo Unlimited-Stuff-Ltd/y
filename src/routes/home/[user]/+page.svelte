@@ -3,7 +3,9 @@
 </script>
 
 <svelte:head>
-	<title>Account - y</title>
+	<title>Account - Y</title>
 </svelte:head>
 
-<p>{page.params.user}</p>
+<main class="p-5">
+	<h1 class="text-4xl font-black">{page.params.user}</h1>
+</main>

@@ -9,9 +9,6 @@ export const actions = {
 		const data = await request.formData();
 		const name = String(data.get('displayName'));
 		const file: any = data.get('file');
-		if (file.size > 3000000) {
-			redirect(303, `/home/${params.user}/account?e=1`)
-		} 
 		const arrayBuffer = await file.arrayBuffer();
 		try {
 			if (file.size > 0 && name) {

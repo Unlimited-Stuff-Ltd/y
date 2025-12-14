@@ -106,7 +106,7 @@
 	}
 </script>
 
-<svelte:head><title>y. because why not</title></svelte:head>
+<svelte:head><title>Y. Because why not</title></svelte:head>
 
 {#if loading}
 	<Loading />
@@ -117,7 +117,7 @@
 		</div>
 		<div class="flex h-screen w-[50vw] items-center justify-center">
 			<div class="text-center">
-				<p class="text-4xl font-black">y. because why not</p>
+				<p class="text-4xl font-black">Y. Because why not</p>
 				<br />
 				<div class="h-60">
 					{#if loggedIn}
