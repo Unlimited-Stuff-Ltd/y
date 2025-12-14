@@ -56,11 +56,19 @@
 			deleteButtonDisabled = false;
 		}
 	}
+
+	function onbeforeunload(e: Event) {
+		if (nameChanged || fileChanged) {
+			e.preventDefault();
+		}
+	}
 </script>
 
 <svelte:head>
 	<title>Account - y</title>
 </svelte:head>
+
+<svelte:window {onbeforeunload} />
 
 <AlertDialog.Root bind:open={signOutDialogOpen}>
 	<AlertDialog.Content>
@@ -128,7 +136,7 @@
 					placeholder={user.displayName}
 					class="font-bold"
 					id="displayName"
-					onchange={() => (nameChanged = true)}
+					onkeyup={() => (nameChanged = true)}
 				/>
 
 				<div class="mt-5 grid grid-cols-3">
