@@ -56,19 +56,11 @@
 			deleteButtonDisabled = false;
 		}
 	}
-
-	function onbeforeunload(e: Event) {
-		if (nameChanged || fileChanged) {
-			e.preventDefault();
-		}
-	}
 </script>
 
 <svelte:head>
 	<title>Account - y</title>
 </svelte:head>
-
-<svelte:window {onbeforeunload} />
 
 <AlertDialog.Root bind:open={signOutDialogOpen}>
 	<AlertDialog.Content>
@@ -112,7 +104,7 @@
 	<div class="w-left flex h-screen items-center justify-center">
 		<div class="text-center">
 			{#if file}
-				<img src={file} alt="the users icon" class="m-auto mb-5 h-40 w-40 rounded-xl border-2" />
+				<img src={file} alt="the users icon" class="m-auto mb-5 h-40 w-40 rounded-[50%] border-2" />
 			{/if}
 			<h2 class="mb-5 text-2xl font-black">{user.displayName}</h2>
 			<hr />
