@@ -4,15 +4,18 @@ import defaultJSON from '$lib/assets/default.json';
 export const users = sqliteTable('users', {
 	username: text('username').primaryKey(),
 	displayName: text('display_name').notNull(),
-	icon: text('icon')
-		.notNull()
-		.$defaultFn(() => defaultJSON.image),
+	icon: text('icon').notNull()
+	.$defaultFn(() => defaultJSON.image),
 	id: text('id')
 		.notNull()
 		.$defaultFn(() => crypto.randomUUID()),
 	recommendations: text('recommendations')
 		.notNull()
-		.$defaultFn(() => '[]')
+		.$defaultFn(() => '[]'),
+	createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+	updatedAt: text('updated_at')
+		.$defaultFn(() => new Date().toISOString())
+		.$onUpdateFn(() => new Date().toISOString())
 });
 
 export const posts = sqliteTable('posts', {
@@ -27,7 +30,11 @@ export const posts = sqliteTable('posts', {
 		.$defaultFn(() => new Date().toISOString()),
 	recommendations: integer('recommendations')
 		.notNull()
-		.$defaultFn(() => 0)
+		.$defaultFn(() => 0),
+	createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+	updatedAt: text('updated_at')
+		.$defaultFn(() => new Date().toISOString())
+		.$onUpdateFn(() => new Date().toISOString())
 });
 
 export const logs = sqliteTable('logs', {
@@ -41,5 +48,9 @@ export const logs = sqliteTable('logs', {
 	action: text('action').notNull(),
 	success: integer('success').$defaultFn(() => 1),
 	error: text('error'),
-	info: text('info').notNull()
+	info: text('info').notNull(),
+	createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
+	updatedAt: text('updated_at')
+		.$defaultFn(() => new Date().toISOString())
+		.$onUpdateFn(() => new Date().toISOString())
 });
