@@ -15,16 +15,14 @@
 	let file: any = $state();
 
 	onMount(() => {
-		data.user.then((a) => {
-			user.displayName = a[0].displayName;
-			const icon: any = a[0].icon;
-			if (icon) {
-				const bytes = Uint8Array.from(icon.split(',').map(Number));
-				const blob = new Blob([bytes], { type: 'image/png' });
-				file = URL.createObjectURL(blob);
-			}
-			loading = false;
-		});
+		user.displayName = data.user?.[0].displayName;
+		const icon: any = data.user?.[0].icon;
+		if (icon) {
+			const bytes = Uint8Array.from(icon.split(',').map(Number));
+			const blob = new Blob([bytes], { type: 'image/png' });
+			file = URL.createObjectURL(blob);
+		}
+		loading = false;
 	});
 	let signOutDialogOpen = $state(false);
 	let deleteDialogOpen = $state(false);

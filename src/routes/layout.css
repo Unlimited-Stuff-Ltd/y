@@ -37,6 +37,7 @@
 }
 
 :root {
+	overflow-x: hidden;
 	--background: #ffffff;
 	--foreground: #0f1419;
 	--card: #f7f8f8;
