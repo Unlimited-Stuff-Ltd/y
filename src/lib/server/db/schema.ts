@@ -29,3 +29,17 @@ export const posts = sqliteTable('posts', {
 		.notNull()
 		.$defaultFn(() => 0)
 });
+
+export const logs = sqliteTable('logs', {
+	id: text('id')
+		.primaryKey()
+		.$defaultFn(() => crypto.randomUUID()),
+	userAgent: text('user_agent').notNull(),
+	date: text('date')
+		.notNull()
+		.$defaultFn(() => new Date().toISOString()),
+	action: text('action').notNull(),
+	success: integer('success').$defaultFn(() => 1),
+	error: text('error'),
+	info: text('info').notNull()
+});

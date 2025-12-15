@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { users } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
+import { success, error } from '$lib/server/db/log';
 
 export const actions = {
 	default: async ({ request, params }) => {
@@ -29,10 +30,20 @@ export const actions = {
 			} else if (file.size > 0 && !name) {
 				await db.update(users).set({ icon: new Uint8Array(arrayBuffer).toString() });
 			}
-		} catch (error) {
-			console.log(error);
+		} catch (errorV) {
+			error(
+				request.headers.get('user-agent') ?? 'not found',
+				'update account',
+				`${name} - ${params.user}`,
+				errorV
+			);
 			redirect(303, `/home/${params.user}?e=2`);
 		}
+		success(
+			request.headers.get('user-agent') ?? 'not found',
+			'update account',
+			`${name} - ${params.user}`
+		);
 		redirect(303, `/home/${params.user}/account`);
 	}
 } satisfies Actions;

@@ -3,6 +3,7 @@ import { db } from '$lib/server/db';
 import { posts, users } from '$lib/server/db/schema';
 import { desc, eq, ne } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
+import { success, error } from '$lib/server/db/log';
 
 export const load: PageServerLoad = async ({ params }) => {
 	const postsArray = db
@@ -30,7 +31,6 @@ export const actions = {
 				.where(eq(users.username, params.user));
 			let newRecommendationsPosts = post[0].recommendations ?? 0;
 			const newRecommendationsUser = JSON.parse(user[0].recommendations ?? '[]');
-			console.log(recommended);
 			if (newRecommendationsUser.includes(id)) {
 				return;
 			}
@@ -48,9 +48,19 @@ export const actions = {
 					recommendations: JSON.stringify(newRecommendationsUser)
 				})
 				.where(eq(users.username, params.user));
-		} catch (error) {
-			console.log(error);
+		} catch (errorV) {
+			error(
+				request.headers.get('user-agent') ?? 'not found',
+				'reccomend',
+				`${id} - ${recommended} - ${params.user}`,
+				errorV
+			);
 			redirect(303, `/home/${params.user}?e=2`);
 		}
+		success(
+			request.headers.get('user-agent') ?? 'not found',
+			'reccomend',
+			`${id} - ${params.user}`
+		);
 	}
 } satisfies Actions;
