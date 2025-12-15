@@ -16,6 +16,12 @@
 			file = URL.createObjectURL(blob);
 		}
 	});
+
+	function fileToLink(icon: string) {
+		const bytes = Uint8Array.from(icon.split(',').map(Number));
+		const blob = new Blob([bytes], { type: 'image/png' });
+		return URL.createObjectURL(blob);
+	}
 </script>
 
 <svelte:head>
@@ -33,16 +39,16 @@
 		<div class="grid grid-cols-2 pt-8">
 			<div class="w-half text-center">
 				<h1 class="mb-6 text-3xl font-bold">Trending Posts</h1>
-				{#each posts as post (post.id)}
+				{#each posts as post (post.posts.id)}
 					<Post
-						id={post.id}
-						icon="https://avatars.githubusercontent.com/u/156860750"
-						poster="the Okapi"
-						contents={post.content}
-						date={new Date(post.date)}
-						recommends={post.recommendations}
-						image={post.image}
-						recommended={data.user?.[0].recommendations.includes(post.id)}
+						id={post.posts.id}
+						icon={fileToLink((post.users ?? { icon: '' }).icon)}
+						poster={(post.users ?? { displayName: '' }).displayName}
+						contents={post.posts.content}
+						date={new Date(post.posts.date)}
+						recommends={post.posts.recommendations}
+						image={post.posts.image}
+						recommended={data.user?.[0].recommendations.includes(post.posts.id)}
 					/>
 					<div class="h-2"></div>
 				{/each}

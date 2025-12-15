@@ -9,9 +9,10 @@ export const load: PageServerLoad = async ({ params }) => {
 	const postsArray = db
 		.select()
 		.from(posts)
-		.orderBy(desc(posts.recommendations))
+		/*.orderBy(desc(posts.recommendations))
 		.limit(3)
-		.where(ne(posts.userId, params.user));
+		.where(ne(posts.userId, params.user))*/
+        .leftJoin(users, eq(users.id, posts.userId));
 	return { posts: postsArray };
 };
 
