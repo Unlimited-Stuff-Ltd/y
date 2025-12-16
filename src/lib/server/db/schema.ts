@@ -1,12 +1,12 @@
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-import defaultJSON from '$lib/assets/default.json';
 
 export const users = sqliteTable('users', {
 	username: text('username').primaryKey(),
 	displayName: text('display_name').notNull(),
 	icon: text('icon')
 		.notNull()
-		.$defaultFn(() => defaultJSON.image),
+		.$defaultFn(() => 'icon')
+		.$defaultFn(() => 'https://y.unlimitedstuffltd.com/placeholder.png'),
 	id: text('id')
 		.notNull()
 		.$defaultFn(() => crypto.randomUUID()),
@@ -14,18 +14,16 @@ export const users = sqliteTable('users', {
 		.notNull()
 		.$defaultFn(() => '[]'),
 	createdAt: text('created_at').$defaultFn(() => new Date().toISOString()),
-	updatedAt: text('updated_at')
-		.$defaultFn(() => new Date().toISOString())
-		.$onUpdateFn(() => new Date().toISOString())
+	updatedAt: text('updated_at').$onUpdateFn(() => new Date().toISOString())
 });
 
 export const posts = sqliteTable('posts', {
 	id: text('id')
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
-	userId: text('user_id').notNull().references(() => users.id),
-    userIcon: text('user_icon').notNull().references(() => users.icon),
-    userDisplayName: text('user_display_name').notNull().references(() => users.displayName),
+	userId: text('user_id').notNull(),
+	userIcon: text('user_icon').notNull(),
+	userDisplayName: text('user_display_name').notNull(),
 	content: text('content').notNull(),
 	image: text('image'),
 	date: text('date')

@@ -9,19 +9,8 @@
 
 	onMount(() => {
 		const user = data.user?.[0] ?? { displayName: '', icon: '' };
-		const icon: any = user.icon;
-		if (icon) {
-			const bytes = Uint8Array.from(icon.split(',').map(Number));
-			const blob = new Blob([bytes], { type: 'image/png' });
-			file = URL.createObjectURL(blob);
-		}
+		file = user.icon;
 	});
-
-	function fileToLink(icon: string) {
-		const bytes = Uint8Array.from(icon.split(',').map(Number));
-		const blob = new Blob([bytes], { type: 'image/png' });
-		return URL.createObjectURL(blob);
-	}
 </script>
 
 <svelte:head>
@@ -36,13 +25,13 @@
 			<img src={file} alt="the users icon" class="mr-3 h-12 w-12 rounded-[50%] border" />
 			<h1 class="text-2xl font-black">{data.user?.[0].displayName}</h1>
 		</div>
-		<div class="grid grid-cols-2 pt-8">
-			<div class="w-half text-center">
-				<h1 class="mb-6 text-3xl font-bold">Trending Posts</h1>
+		<div class="w-half text-center">
+			<h1 class="mb-6 mt-3 text-3xl font-bold">Trending Posts</h1>
+			<div class="grid grid-cols-2">
 				{#each posts as post (post.posts.id)}
 					<Post
 						id={post.posts.id}
-						icon={fileToLink((post.users ?? { icon: '' }).icon)}
+						icon={(post.users ?? { icon: '' }).icon}
 						poster={(post.users ?? { displayName: '' }).displayName}
 						contents={post.posts.content}
 						date={new Date(post.posts.date)}
@@ -53,24 +42,12 @@
 					<div class="h-2"></div>
 				{/each}
 			</div>
-			<div class="w-half text-center">
-				<h1 class="mb-6 text-3xl font-bold">For You</h1>
-				<Post
-					id="hello"
-					icon="https://avatars.githubusercontent.com/u/156860750"
-					image="https://avatars.githubusercontent.com/u/156860750"
-					poster="the Okapi"
-					contents="This is a test post on Y. This is the first post I will be seeing."
-					date={new Date('December 12 2025, 1:08 pm')}
-					recommends={121}
-				/>
-			</div>
 		</div>
 	</main>
 {/await}
 
 <style>
 	.w-half {
-		width: calc(calc(100vw - 12.5rem) / 2);
+		width: calc(100vw - 12.5rem);
 	}
 </style>

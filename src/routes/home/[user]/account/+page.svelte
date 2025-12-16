@@ -16,12 +16,7 @@
 
 	onMount(() => {
 		user.displayName = data.user?.[0].displayName;
-		const icon: any = data.user?.[0].icon;
-		if (icon) {
-			const bytes = Uint8Array.from(icon.split(',').map(Number));
-			const blob = new Blob([bytes], { type: 'image/png' });
-			file = URL.createObjectURL(blob);
-		}
+		file = data.user?.[0].icon;
 		loading = false;
 	});
 	let signOutDialogOpen = $state(false);
@@ -29,10 +24,6 @@
 
 	let nameChanged = $state(false);
 	let fileChanged = $state(false);
-
-	let text = $state('');
-
-	let files: any = $state();
 
 	function signOutDialog() {
 		signOutDialogOpen = true;
@@ -54,16 +45,6 @@
 	function onkeyup() {
 		if (deleteName === page.params.user) {
 			deleteButtonDisabled = false;
-		}
-	}
-
-	function fileChange() {
-		if (files[0].size > 3000000) {
-			files = null;
-			text = 'Icon must be smaller than 3 MB';
-		} else {
-			text = '';
-			fileChanged = true;
 		}
 	}
 </script>
@@ -149,19 +130,11 @@
 						{#if fileChanged}<Label class="mt-1 mb-1.5 text-right">(Unsaved)</Label>{/if}
 					</div>
 				</div>
-				<div class="flex text-left">
-					<Button class="mr-3 h-fit p-0" variant="outline"
-						><label for="fileInput" class="cursor-pointer px-4 py-2">Choose File</label></Button
-					>{#if files}<button disabled>{files[0].name}</button>{/if}<br />
-				</div>
-				<p class="w-64">{text}<span class="text-transparent">hi</span></p>
-				<input
+				<Input
 					name="file"
-					id="fileInput"
-					type="file"
-					accept="image/png, image/jpeg"
-					bind:files
-					onchange={fileChange}
+					placeholder="Paste link to icon here"
+					id="file"
+					onkeyup={() => (fileChanged = true)}
 				/>
 				<Button class="mt-5 mb-10" type="submit">Save</Button>
 			</form>
@@ -177,8 +150,5 @@
 <style>
 	.w-left {
 		width: calc(100vw - 12.5rem);
-	}
-	#fileInput {
-		display: none;
 	}
 </style>

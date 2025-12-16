@@ -24,7 +24,7 @@
 
 <div class="m-auto w-120 rounded-3xl border p-6">
 	<div class="flex w-fit items-center justify-center">
-		<img src={icon} class="mr-2 w-14 rounded-[50%] border" alt="The user's icon" />
+		<img src={icon} class="mr-2 h-12 w-12 rounded-[50%] border" alt="The user's icon" />
 		<h2 class="text-xl font-bold">{poster}</h2>
 		<h3 class="ml-2 text-neutral-400">{formatDate(date)}</h3>
 	</div>

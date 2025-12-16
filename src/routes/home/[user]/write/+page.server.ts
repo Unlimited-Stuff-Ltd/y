@@ -4,7 +4,6 @@ import { posts, users } from '$lib/server/db/schema';
 import { redirect } from '@sveltejs/kit';
 import { success, error } from '$lib/server/db/log';
 import { eq } from 'drizzle-orm';
-import { userInfo } from 'os';
 
 export const actions = {
 	default: async ({ request, params }) => {
@@ -13,14 +12,14 @@ export const actions = {
 		const image = data.get('image');
 		let post;
 		try {
-            const user = (await db.select().from(users).where(eq(users.username, params.user)))[0];
+			const user = (await db.select().from(users).where(eq(users.username, params.user)))[0];
 			if (image) {
 				post = await db
 					.insert(posts)
 					.values({
 						userId: user.id,
-                        userIcon: user.icon,
-                        userDisplayName: user.displayName,
+						userIcon: user.icon,
+						userDisplayName: user.displayName,
 						content,
 						image: String(image)
 					})
@@ -30,8 +29,8 @@ export const actions = {
 					.insert(posts)
 					.values({
 						userId: params.user,
-                        userIcon: user.icon,
-                        userDisplayName: user.displayName,
+						userIcon: user.icon,
+						userDisplayName: user.displayName,
 						content
 					})
 					.returning({ id: posts.id });

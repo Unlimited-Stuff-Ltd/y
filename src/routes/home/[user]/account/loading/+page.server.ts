@@ -9,26 +9,26 @@ export const actions = {
 	default: async ({ request, params }) => {
 		const data = await request.formData();
 		const name = String(data.get('displayName'));
-		const file: any = data.get('file');
-		const arrayBuffer = await file.arrayBuffer();
+		const file = String(data.get('file'));
+
 		try {
-			if (file.size > 0 && name) {
+			if (file && name) {
 				await db
 					.update(users)
 					.set({
 						displayName: name,
-						icon: new Uint8Array(arrayBuffer).toString()
+						icon: file
 					})
 					.where(eq(users.username, params.user));
-			} else if (name && file.size === 0) {
+			} else if (name && !file) {
 				await db
 					.update(users)
 					.set({
 						displayName: name
 					})
 					.where(eq(users.username, params.user));
-			} else if (file.size > 0 && !name) {
-				await db.update(users).set({ icon: new Uint8Array(arrayBuffer).toString() });
+			} else if (file && !name) {
+				await db.update(users).set({ icon: file });
 			}
 		} catch (errorV) {
 			error(

@@ -5,14 +5,13 @@ import { desc, eq, ne } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
 import { success, error } from '$lib/server/db/log';
 
-export const load: PageServerLoad = async ({ params }) => {
+export const load: PageServerLoad = async () => {
 	const postsArray = db
 		.select()
 		.from(posts)
-		/*.orderBy(desc(posts.recommendations))
-		.limit(3)
-		.where(ne(posts.userId, params.user))*/
-        .leftJoin(users, eq(users.id, posts.userId));
+		.orderBy(desc(posts.recommendations))
+		.limit(6)
+		.leftJoin(users, eq(users.id, posts.userId));
 	return { posts: postsArray };
 };
 

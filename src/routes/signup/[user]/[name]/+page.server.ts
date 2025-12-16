@@ -17,6 +17,7 @@ export const load: PageServerLoad = async ({ request, params }) => {
 			})
 			.returning({ id: users.id });
 	} catch (errorV) {
+		console.log(errorV);
 		error(
 			request.headers.get('user-agent') ?? 'not found',
 			'sign-up',
