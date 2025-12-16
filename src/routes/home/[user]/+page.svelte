@@ -26,18 +26,18 @@
 			<h1 class="text-2xl font-black">{data.user?.[0].displayName}</h1>
 		</div>
 		<div class="w-half text-center">
-			<h1 class="mb-6 mt-3 text-3xl font-bold">Trending Posts</h1>
+			<h1 class="mt-3 mb-6 text-3xl font-bold">Trending Posts</h1>
 			<div class="grid grid-cols-2">
-				{#each posts as post (post.posts.id)}
+				{#each posts as post (post.id)}
 					<Post
-						id={post.posts.id}
-						icon={(post.users ?? { icon: '' }).icon}
-						poster={(post.users ?? { displayName: '' }).displayName}
-						contents={post.posts.content}
-						date={new Date(post.posts.date)}
-						recommends={post.posts.recommendations}
-						image={post.posts.image}
-						recommended={data.user?.[0].recommendations.includes(post.posts.id)}
+						id={post.id}
+						icon={post.userIcon}
+						poster={post.userDisplayName}
+						contents={post.content}
+						date={new Date(post.date)}
+						recommends={post.recommendations}
+						image={post.image}
+						recommended={data.user?.[0].recommendations.includes(post.id)}
 					/>
 					<div class="h-2"></div>
 				{/each}

@@ -18,8 +18,8 @@ export const actions = {
 					.insert(posts)
 					.values({
 						userId: user.id,
-						userIcon: user.icon,
 						userDisplayName: user.displayName,
+						userIcon: user.icon,
 						content,
 						image: String(image)
 					})
@@ -29,8 +29,8 @@ export const actions = {
 					.insert(posts)
 					.values({
 						userId: params.user,
-						userIcon: user.icon,
 						userDisplayName: user.displayName,
+						userIcon: user.icon,
 						content
 					})
 					.returning({ id: posts.id });

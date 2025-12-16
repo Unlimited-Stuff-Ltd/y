@@ -22,8 +22,8 @@ export const posts = sqliteTable('posts', {
 		.primaryKey()
 		.$defaultFn(() => crypto.randomUUID()),
 	userId: text('user_id').notNull(),
-	userIcon: text('user_icon').notNull(),
 	userDisplayName: text('user_display_name').notNull(),
+	userIcon: text('user_icon').notNull(),
 	content: text('content').notNull(),
 	image: text('image'),
 	date: text('date')

@@ -1,17 +1,12 @@
 import type { Actions, PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { posts, users } from '$lib/server/db/schema';
-import { desc, eq, ne } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 import { redirect } from '@sveltejs/kit';
 import { success, error } from '$lib/server/db/log';
 
 export const load: PageServerLoad = async () => {
-	const postsArray = db
-		.select()
-		.from(posts)
-		.orderBy(desc(posts.recommendations))
-		.limit(6)
-		.leftJoin(users, eq(users.id, posts.userId));
+	const postsArray = db.select().from(posts).orderBy(desc(posts.recommendations)).limit(6);
 	return { posts: postsArray };
 };
 
