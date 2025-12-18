@@ -20,6 +20,16 @@
 			return `${dateDate}, ${timeString}`;
 		}
 	}
+
+	function formatRecommends(recommends: number) {
+		if (recommends > 1000000) {
+			return `${Math.round(recommends / 10000) / 100} million`;
+		} else if (recommends > 1000) {
+			return `${Math.round(recommends / 10) / 100}k`;
+		} else {
+			return recommends;
+		}
+	}
 </script>
 
 <div class="m-auto w-120 rounded-3xl border p-6">
@@ -48,6 +58,6 @@
 		{:else}
 			<div class="mr-2 h-5 w-5 rounded-[50%] border-2 border-primary bg-primary"></div>
 		{/if}
-		<p class="text-neutral-400">{recommends} recommendations</p>
+		<p class="text-neutral-400">{formatRecommends(recommends)} recommendations</p>
 	</form>
 </div>
