@@ -29,17 +29,19 @@
 			<h1 class="mt-3 mb-6 text-3xl font-bold">Trending Posts</h1>
 			<div class="grid grid-cols-2">
 				{#each posts as post (post.id)}
-					<Post
-						id={post.id}
-						icon={post.userIcon}
-						poster={post.userDisplayName}
-						contents={post.content}
-						date={new Date(post.date)}
-						recommends={post.recommendations}
-						image={post.image}
-						recommended={data.user?.[0].recommendations.includes(post.id)}
-					/>
-					<div class="h-2"></div>
+					<div>
+						<Post
+							id={post.id}
+							icon={post.userIcon}
+							poster={post.userDisplayName}
+							contents={post.content}
+							date={new Date(post.date)}
+							recommends={post.recommendations}
+							image={post.image}
+							recommended={data.user?.[0].recommendations.includes(post.id)}
+						/>
+						<div class="h-2"></div>
+					</div>
 				{/each}
 			</div>
 		</div>
